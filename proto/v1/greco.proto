@@ -1,0 +1,53 @@
+syntax = "proto3";
+
+package greco.v1;
+
+import "proto/v1/common/utils.proto";
+
+message Vehicle {
+  string id = 1;
+  string make = 2;
+  string model = 3;
+  int32 year = 4;
+  string status = 5; // e.g., "active", "maintenance", "decommissioned"
+}
+
+message Driver {
+  string id = 1;
+  string name = 2;
+  string license_number = 3;
+}
+
+message VehicleMaintenanceRequest {
+  string vehicle_id = 1;
+  string maintenance_type = 2; // e.g., "oil_change", "tire_rotation"
+  string scheduled_date = 3;
+}
+
+message VehicleMaintenanceResponse {
+  bool success = 1;
+}
+
+message OnboardDriverRequest {
+  Driver driver = 1;
+}
+
+message OnboardDriverResponse {
+  bool success = 1;
+}
+
+message FleetAnalyticsRequest {
+  string fleet_id = 1;
+}
+
+message FleetAnalyticsResponse {
+  int32 total_vehicles = 1;
+  int32 vehicles_in_maintenance = 2;
+  int32 active_drivers = 3;
+}
+
+service FleetManagementService {
+  rpc ScheduleMaintenance(VehicleMaintenanceRequest) returns (VehicleMaintenanceResponse);
+  rpc OnboardDriver(OnboardDriverRequest) returns (OnboardDriverResponse);
+  rpc GetFleetAnalytics(FleetAnalyticsRequest) returns (FleetAnalyticsResponse);
+}
